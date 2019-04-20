@@ -49,7 +49,9 @@ import com.microsoft.rest.v2.util.FlowableUtil;
 import digital.toke.azc.CmdLineParser.OptionException;
 
 /**
- * Send and receive files from Microsoft Azure blobstore
+ * <p>Send and receive files from Microsoft Azure blobstore</p>
+ * 
+ * <p>All methods except main() are private</p>
  * 
  * @author David R. Smith <dave.smith10@det.nsw.edu.au>
  *
@@ -261,7 +263,7 @@ public class Main {
 
 	}
 
-	public static Observable<BlobItem> listBlobsLazy(ContainerURL containerURL, ListBlobsOptions listBlobsOptions) {
+	private static Observable<BlobItem> listBlobsLazy(ContainerURL containerURL, ListBlobsOptions listBlobsOptions) {
 		return containerURL.listBlobsFlatSegment(null, listBlobsOptions, null)
 				.flatMapObservable((r) -> listContainersResultToContainerObservable(containerURL, listBlobsOptions, r));
 	}
@@ -333,12 +335,15 @@ public class Main {
 	private static void uploadFile(BlockBlobURL blob, File sourceFile) throws IOException {
 
 		AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(sourceFile.toPath());
-		
+
 		// v11
-		CommonRestResponse response = TransferManager.uploadFileToBlockBlob(fileChannel, blob, 8*1024*1024, 1024*1024*1024, null).blockingGet();
-		
+		CommonRestResponse response = TransferManager
+				.uploadFileToBlockBlob(fileChannel, blob, 8 * 1024 * 1024, 1024 * 1024 * 1024, null).blockingGet();
+
 		// v10
-	//	CommonRestResponse response = TransferManager.uploadFileToBlockBlob(fileChannel, blob, 8 * 1024 * 1024, null).blockingGet();
+		// CommonRestResponse response =
+		// TransferManager.uploadFileToBlockBlob(fileChannel, blob, 8 * 1024 * 1024,
+		// null).blockingGet();
 		int status = response.response().statusCode();
 		if (status == 201) {
 			info("Success!");
@@ -456,12 +461,12 @@ public class Main {
 		System.out.println("");
 		System.out.println("Options:");
 		System.out.println("-c --config           | Config file location, required");
-		System.out.println("-s --silent           | Do not emit anything");
+		System.out.println("-s --silent           | Do not emit any console log output - useful for ansible");
 		System.out.println("-i --idempotent       | Attempt to copy only if not present");
 		System.out.println("-v --verb <command>   | Commands: list, get, getAll, send, required");
 		System.out.println("-f --file <name>      | The filename to get, or the full file path to send");
 		System.out.println("-d --dest <folder>    | use with get, the folder to put the file(s)");
-
+		System.out.println("");
 		System.out.println("-h --help             | Show this help");
 		System.out.println("");
 

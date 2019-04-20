@@ -3,9 +3,46 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>digital.toke</groupId>
 	<artifactId>azc</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<packaging>jar</packaging>
+	
+	<name>Toke Digital - Azure Blobstore Client</name>
+	<description>Utility to work with Azure blobstores. </description>
+	
+	<url>https://github.com/toke-digital/azc/tree/master/azc</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
+	<organization>
+		<name>David R. Smith</name>
+		<url>https://github.com/toke-digital/</url>
+	</organization>
+	<scm>
+		<connection>https://github.com/toke-digital/azc.git</connection>
+		<developerConnection>https://github.com/toke-digital/azc.git</developerConnection>
+		<url>https://github.com/toke-digital/azc.git</url>
+	</scm>
+	<developers>
+		<developer>
+			<id>1</id>
+			<name>David R. Smith</name>
+			<email>davesmith.gbs@gmail.com</email>
+		</developer>
+	</developers>
+	<issueManagement>
+		<system>None</system>
+	</issueManagement>
+	<ciManagement>
+		<system>None</system>
+	</ciManagement>
+	
+	<!-- needed for some specific microsoft dependencies -->
+	
 	<repositories>
 		<repository>
 			<id>commicrosoftazure-2334</id>
@@ -88,12 +125,105 @@
 				</executions>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<verbose>true</verbose>
+					<fork>true</fork>
+					<executable>${JAVA_1_8_HOME}/bin/javac</executable>
+				</configuration>
+			</plugin>
 
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>1.0.2</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<configuration>
+					<show>private</show>
+					<nohelp>true</nohelp>
+
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadoc</id>
+						<phase>test</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>test</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+
+			</plugin>
+
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
 	<properties>
+		<JAVA_1_8_HOME>C:/Program Files/Java/jdk1.8.0_201</JAVA_1_8_HOME>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- needed to get my inadequate comments to parse in Java 1.8 javadoc -->
+		<additionalparam>-Xdoclint:none</additionalparam>
 	</properties>
 
 </project>

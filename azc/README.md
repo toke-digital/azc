@@ -2,12 +2,33 @@
 
 This simple java client can interact with Microsoft Azure blobstores. It works with Ansible as a module as well. 
 
+## Prereq - Azure Blobstore setup
+
+*Disclaimer - I have no financial stake in Microsoft and this tool is not an attempt to shill their services. Also, using Azure has a financial aspect and it's not my fault if you screw up.*  
+
+### Portal Login
+
+https://azure.microsoft.com/en-au/features/azure-portal/
+
+
 ## Getting Started
 
-Download the jar including dependencies:
+Download the jar including dependencies from maven central:
 
 ```
-curl -o azc.jar <maven central>/azc/1.0.3/azc-1.0.3-jar-with-dependencies.jar
+<dependency>
+  <groupId>digital.toke</groupId>
+  <artifactId>azc</artifactId>
+  <version>1.0.3</version>
+</dependency>
+
+```
+
+or
+
+```
+curl https://repo1.maven.org/maven2/digital/toke/azc/1.0.3/azc-1.0.3-jar-with-dependencies.jar -o D:/azc/azc.jar
+
 ```
 
 Create a configuration file like this, called something like azc-config.properties
@@ -56,7 +77,7 @@ java -jar azc.jar --config azc-config.properties --verb list
 ```
 java -jar azc.jar --config azc-config.properties --verb get --file myfile.zip --dest /tmp
 ```
-#### Get a file in silent mode (no console output)
+#### Get a file in silent mode (no console output, useful for ansible)
 
 ```
 java -jar azc.jar --config azc-config.properties --verb get --silent --file myfile.zip --dest /tmp
@@ -68,7 +89,7 @@ java -jar azc.jar --config azc-config.properties --verb get --silent --file myfi
 java -jar azc.jar --config azc-config.properties --verb send --file myfile.zip
 ```
 
-#### Get All the files and put them into /tmp
+#### Get all the files and put them into /tmp
 
 ```
 java -jar azc.jar --config azc-config.properties --verb getAll --dest /tmp
