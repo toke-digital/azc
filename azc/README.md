@@ -7,7 +7,7 @@ This simple java client can interact with Microsoft Azure blobstores. It works w
 Download the jar including dependencies:
 
 <code>
-curl -o azc.jar <maven central>/azc/1.0.3/azc-1.0.3-jar-with-dependencies.jar
+curl -o azc.jar \<maven central\>/azc/1.0.3/azc-1.0.3-jar-with-dependencies.jar
 </code>
 
 Create a configuration file like this, called something like azc-config.properties
